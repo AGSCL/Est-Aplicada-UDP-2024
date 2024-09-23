@@ -1,0 +1,10 @@
+I am also have trouble with UTF-8, let me explain how i solved:
+
+Save the 2000-1-1-My-Post.md in UTF-8 Without BOM
+NOT UTF-8 !!!
+Do not use unicode characters (and spaces) in the post file name
+Encode Title in the post meta info to html entities, like
+Ahmed &#350;eref
+
+
+Cuidado con los títulos con tildes, archivos con caracteres especiales, metadata principalmente con espacios o tildes o enies
