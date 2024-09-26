@@ -932,6 +932,20 @@ mtcars |>
 - Lo bueno es que por ejemplo a diferencia de excel, uno puede ir viendo paso por paso lo que hizo con un conjunto de datos
 
 ---
+## Funciones (0)
+
+| **Tidyverse**   | **R base**       | **Descripción**                                                                 |
+|-----------------|------------------|---------------------------------------------------------------------------------|
+| `left_join()`   | `merge()`         | Combinar dos conjuntos de datos en base a una o más columnas clave.              |
+| `filter()`      | `subset()`        | Filtrar filas de un DataFrame basado en condiciones específicas.                 |
+| `select()`      | `subset()` / `[`  | Seleccionar columnas específicas de un DataFrame.                               |
+| `mutate()`      | `transform()`     | Crear nuevas columnas o modificar las existentes mediante transformaciones.      |
+| `summarise()`   | `aggregate()`     | Resumir datos calculando estadísticas como sumas, medias o conteos.             |
+| `arrange()`     | `order()`         | Ordenar un DataFrame basado en los valores de una o más columnas.               |
+| `read_csv()`    | `read.csv()`      | Leer archivos CSV.                                                              |
+
+
+---
 ## Funciones (1)
 
 - Para añadir columnas
