@@ -723,7 +723,7 @@ path2<-dirname(rstudioapi::getSourceEditorContext()$path)
 
 .text_70[[Código en: `r fontawesome::fa(name = "github")`](https://github.com/AGSCL/Curso_UDP)]
 
-.text_110[Clase 5. Ggplot e Introducción a RMarkdown y Quarto]
+.text_110[Clase 5. Tidyverse y Ggplot]
 
 ]
 
@@ -762,15 +762,254 @@ Visualización de datos con ggplot2
 - Scatter
 - Boxplots
 - Bargraphs
-Introducción a RMarkdown y Quarto
-- Reproducibilidad y replicabilidad
-- Formatos
-- Estructura
-- Ventajas y desventajas de cada uno
+
 
 ---
 layout: true
 class: animated, fadeIn
+---
+
+
+---
+# Ejercicio 2- Clase pasada
+
+- Cargue la base de datos "starwars"
+
+- (Podría faltar el paquete magrittr, si el programa se lo pide, ¿sabría cómo instalarlo?)
+
+- Ejecute este código: `starwars %>% dplyr::group_by(eye_color) %>% dplyr::summarise(promedio_altura_por_color_de_ojos=mean(height, na.rm=T))`
+
+- Conversemos sobre lo que hizo
+
+
+---
+# Ejercicio 3- Clase pasada
+
+- Importar `bbdd_prueba.csv` (https://raw.githubusercontent.com/AGSCL/Est-Aplicada-UDP-2024/main/_data/bbdd_prueba1.csv)
+
+- Complete la [guía de ejercicios](https://raw.githubusercontent.com/AGSCL/Est-Aplicada-UDP-2024/main/guia_dplyr.R) 
+
+
+
+---
+## EXTRA Clase pasada: Administración de datos categóricos
+
+- Usando la base de `ministros`
+
+- Instale `forcats` y `janitor`, active `tidyverse por si`
+
+.pull-left[
+.details-code[
+```{r pre-string1, include=F}
+ministros_aylwin <- data.frame(
+  nombre = c(
+    "Enrique Silva Cimma", "Francisco Cumplido", "Alejandro Foxley", "Carlos Ominami", "Ricardo Lagos",
+    "Sergio Molina Silva", "Marcelo Schilling", "René Cortázar", "Luis Alvarado Constenla", "Máximo Pacheco",
+    "Edgardo Boeninger", "Enrique Correa", "Patricio Rojas", "Germán Molina Valdivieso", 
+    "Juan Agustín Figueroa", "Soledad Alvear", "Alejandro Hales", "Jorge Marshall Rivera"
+  ),
+  
+  cartera = c(
+    "Relaciones Exteriores", "Justicia", "Hacienda", "Economía", "Obras Públicas", 
+    "Educación", "Seguridad Pública", "Trabajo y Previsión Social", "Bienes Nacionales", "Minas",
+    "Secretaría General de la Presidencia", "Secretaría General de Gobierno", "Defensa", 
+    "Transportes y Telecomunicaciones", "Agricultura", "Mujer (SERNAM)", "Minería", "Economía"
+  ),
+  
+  gobierno = rep("Aylwin", 18)
+)
+ministros_frei_1994_2000 <- data.frame(
+  nombre = c(
+    "Soledad Alvear", "Eduardo Aninat", "José Pablo Arellano", "Jorge Arrate", "Genaro Arriagada",
+    "John Biehl", "Josefina Bilbao", "José Joaquín Brunner", "Germán Correa", "Adriana Delpiano",
+    "Carlos Figueroa", "Álex Figueroa", "Sergio Galilea", "Álvaro García Hurtado", "José Antonio Gómez",
+    "Jorge Heine", "Sergio Henríquez", "Edmundo Hermosilla", "Claudio Hohmann", "José Miguel Insulza",
+    "Narciso Irureta", "Alejandro Jadresic", "Sergio Jiménez Moraga", "Óscar Landerretche", "Jorge Leiva Lavalle",
+    "Luis Maira", "Manuel Marfán", "Carlos Massad", "Carlos Mladinic", "Sergio Molina", "Germán Molina Valdivieso",
+    "Emiliano Ortega", "Edmundo Pérez Yoma", "Roberto Pizarro Hofer", "Germán Quintana", "Víctor Manuel Rebolledo",
+    "Felipe Sandoval Precht", "Ángel Sartori", "Ernesto Schiefelbein", "Benjamín Teplizky", "Jaime Tohá",
+    "Raúl Troncoso", "Juan Gabriel Valdés", "Juan Villarzú"
+  ),
+  
+  cartera = c(
+    "Justicia", "Hacienda", "Presupuesto", "Trabajo y Previsión Social", "Secretaría General de la Presidencia",
+    "Relaciones Exteriores", "Mujer", "Educación", "Interior", "Vivienda y Urbanismo",
+    "Salud", "Salud", "Obras Públicas", "Economía", "Defensa",
+    "Relaciones Exteriores", "Transportes y Telecomunicaciones", "Vivienda y Urbanismo", "Obras Públicas", "Interior",
+    "Mujer", "Energía", "Minería", "Presupuesto", "Transporte y Telecomunicaciones",
+    "Vivienda y Urbanismo", "Hacienda", "Banco Central", "Economía", "Educación", "Transportes y Telecomunicaciones",
+    "Interior", "Defensa", "Relaciones Exteriores", "Obras Públicas", "Relaciones Exteriores",
+    "Desarrollo Social", "Medio Ambiente", "Educación", "Energía", "Interior",
+    "Relaciones Exteriores", "Relaciones Exteriores", "Energía"
+  ),
+  
+  gobierno = rep("Frei", 44)
+)
+ministros_lagos_2000_2006 <- data.frame(
+  nombre = c(
+    "Soledad Alvear", "Ignacio Walker", "Ricardo Lagos Weber", "Sergio Bitar", "Mariana Aylwin", 
+    "Francisco Vidal", "Nicolás Eyzaguirre", "Osvaldo Puccio", "Jaime Estévez", "Jaime Estévez", "José Miguel Insulza", 
+    "Pedro García Aspillaga", "Jorge Rodríguez Grossi", "Javier Etcheberry", "Adriana Delpiano", 
+    "Alvaro García", "Claudio Huepe", "Luis Bates", "Alejandro Ferreiro", "Francisco Huenchumilla", 
+    "Carlos Cruz", "Vivianne Blanlot", "José Weinstein", "Heraldo Muñoz", "Alejandra Krauss", "José Antonio Viera-Gallo"
+  ),
+  
+  cartera = c(
+    "Relaciones Exteriores", "Relaciones Exteriores", "Secretaría General de Gobierno", "Obras Públicas", "Educación", 
+    "Interior", "Hacienda", "Secretaría General de Gobierno", "Obras Públicas", "Transportes y Telecomunicaciones", "Defensa", 
+    "Salud", "Economía", "Obras Públicas", "Desarrollo Social", 
+    "Economía", "Energía", "Justicia", "Energía", "Seguridad Pública", 
+    "Defensa", "Cultura", "Relaciones Exteriores", "Mujer", "Trabajo y Previsión Social", "Secretaría General de la Presidencia"
+  ),
+  
+  gobierno = rep("Lagos", 26)
+)
+ministros_bachelet_2006_2010 <- data.frame(
+  nombre = c(
+    "Andrés Velasco", "José Goñi", "Edmundo Pérez Yoma", "Sergio Bitar", "Francisco Vidal", 
+    "Patricio Rosende", "Carolina Tohá", "Felipe Harboe", "Ricardo Lagos Weber", 
+    "Jaime Mañalich", "Patricia Poblete", "Paulina Veloso", "Osvaldo Andrade", "Paula Quintana", 
+    "Ernesto Ottone", "María Ignacia Benítez", "Alejandro Foxley", "Ingrid Antonijevic", "Clarisa Hardy",
+    "Martín Zilic", "Yasna Provoste", "Eduardo Bitrán", "Rommy Schmidt", "Sergio Espejo", "Karen Poniachik", "Hugo Lavados"
+  ),
+  
+  cartera = c(
+    "Hacienda", "Defensa", "Interior", "Transporte y Telecomunicaciones", "Secretaría General de Gobierno", 
+    "Subsecretaría del Interior", "Secretaría General de Gobierno", "Subsecretaría de Prevención del Delito", "Relaciones Exteriores", 
+    "Salud", "Vivienda y Urbanismo", "Ministerio de la Mujer", "Trabajo y Previsión Social", "Desarrollo Social", 
+    "Cultura", "Medio Ambiente", "Relaciones Exteriores", "Economía", "Planificación y Cooperación",
+    "Educación", "Educación", "Obras Públicas", "Bienes Nacionales", "Transportes y Telecomunicaciones", "Minería", "Economía"
+  ),
+  
+  gobierno = rep("Bachelet I", 26)
+)
+ministros_pinera_2010_2014 <- data.frame(
+  nombre = c(
+    "Rodrigo Hinzpeter", "Alfredo Moreno", "Jaime Ravinet", "Andrés Allamand", "Felipe Larraín", 
+    "Cristián Larroulet", "Ena von Baer", "Andrés Chadwick", "Cecilia Pérez", 
+    "Juan Andrés Fontaine", "Pablo Longueira", "Félix de Vicente", 
+    "Felipe Kast", "Joaquín Lavín", "Joaquín Lavín", "Bruno Baranda", 
+    "Felipe Bulnes", "Harald Beyer", "Carolina Schmidt", "Loreto Silva", 
+    "Magdalena Matte", "Catalina Parot", "María Ignacia Benítez", "Jaime Mañalich", 
+    "Pedro Pablo Errázuriz", "Rodrigo Pérez Mackenna", "Rodrigo Pérez Mackenna"
+  ),
+  
+  cartera = c(
+    "Interior y Seguridad Pública", "Relaciones Exteriores", "Defensa", "Defensa", "Hacienda", 
+    "Secretaría General de la Presidencia", "Secretaría General de Gobierno", "Interior y Seguridad Pública", "Secretaría General de Gobierno", 
+    "Economía", "Economía", "Economía", 
+    "Desarrollo Social", "Educación", "Desarrollo Social", "Desarrollo Social", 
+    "Educación", "Educación", "SERNAM", "Obras Públicas", 
+    "Vivienda y Urbanismo", "Bienes Nacionales", "Medio Ambiente", "Salud", 
+    "Transportes y Telecomunicaciones", "Vivienda y Urbanismo", "Bienes Nacionales"
+  ),
+  
+  gobierno = rep("Piñera I", 27)
+)
+ministros_bachelet_2014_2018 <- data.frame(
+  nombre = c(
+    "Rodrigo Peñailillo", "Jorge Burgos", "Mario Fernández", "Heraldo Muñoz", 
+    "José Antonio Gómez", "Alberto Arenas", "Rodrigo Valdés", "Nicolás Eyzaguirre", "Nicolás Eyzaguirre", 
+    "Ximena Rincón", "Gabriel de la Fuente", "Álvaro Elizalde", "Paula Narváez", 
+    "Luis Felipe Céspedes", "Jorge Rodríguez Grossi", "Fernanda Villegas", 
+    "Marcos Barraza", "Adriana Delpiano", "Javiera Blanco", "Alejandra Krauss", 
+    "Alberto Undurraga", "Helia Molina", "Carmen Castillo", "Paulina Saball", 
+    "Carlos Furche", "Aurora Williams", "Andrés Gómez-Lobo", "Paola Tapia", 
+    "Víctor Osorio", "Nivia Palma", "Máximo Pacheco", "Andrés Rebolledo", 
+    "Pablo Badenier", "Marcelo Mena", "Natalia Riffo", "Pablo Squella", 
+    "Claudia Pascual", "Claudia Barattini", "Ernesto Ottone"
+  ),
+  
+  cartera = c(
+    "Interior", "Interior", "Interior", "Relaciones Exteriores", 
+    "Defensa", "Hacienda", "Hacienda", "Educación", "Secretaría General de la Presidencia", 
+    "Trabajo y Previsión Social", "Secretaría General de la Presidencia", 
+    "Secretaría General de Gobierno", "Secretaría General de Gobierno", 
+    "Economía", "Economía", "Desarrollo Social", 
+    "Desarrollo Social", "Educación", "Justicia y Derechos Humanos", 
+    "Trabajo y Previsión Social", "Obras Públicas", "Salud", "Salud", 
+    "Vivienda y Urbanismo", "Agricultura", "Minería", "Transportes y Telecomunicaciones", 
+    "Transportes y Telecomunicaciones", "Bienes Nacionales", "Bienes Nacionales", 
+    "Energía", "Energía", "Medio Ambiente", "Medio Ambiente", 
+    "Deporte", "Deporte", "Mujer y la Equidad de Género", 
+    "Culturas, las Artes y el Patrimonio", "Culturas, las Artes y el Patrimonio"
+  ),
+  
+  gobierno = rep("Bachelet II", 39)
+)
+ministros_pinera_2018_2022 <- data.frame(
+  nombre = c(
+    "Andrés Chadwick", "Gonzalo Blumel", "Rodrigo Delgado", "Teodoro Ribera", "Andrés Allamand", 
+    "Alfredo Moreno", "Felipe Larraín", "Ignacio Briones", "Rodrigo Cerda", 
+    "Emilio Santelices", "Jaime Mañalich", "Enrique Paris", "Marcela Cubillos", "Raúl Figueroa", 
+    "Hernán Larraín", "Lucas Palacios", "Juan Carlos Jobet", "Baldo Prokurica", 
+    "Carolina Schmidt", "Gloria Hutt", "María José Zaldívar", "Sebastián Sichel", "Karla Rubilar"
+  ),
+  
+  cartera = c(
+    "Interior", "Interior", "Interior", "Relaciones Exteriores", "Relaciones Exteriores", 
+    "Desarrollo Social", "Hacienda", "Hacienda", "Hacienda", 
+    "Salud", "Salud", "Salud", "Educación", "Educación", 
+    "Justicia", "Economía", "Energía", "Defensa", 
+    "Medio Ambiente", "Transportes", "Trabajo", "Desarrollo Social", "Desarrollo Social"
+  ),
+  
+  gobierno = rep("Piñera II", 23)
+)
+ministros<-
+rbind.data.frame(ministros_aylwin,ministros_frei_1994_2000,ministros_lagos_2000_2006,ministros_bachelet_2006_2010,ministros_pinera_2010_2014,ministros_bachelet_2014_2018,ministros_pinera_2018_2022)
+```
+
+```{r string1, echo=T, error=T, warning=F, message=F, results="hold"}
+ministros %>% 
+    #que no nos importe el periodo, sino sólo el presidente
+    #si el gobierno posee un espacio, entonces, eliminamos los últimos 3 caracteres, 
+    #de lo contrario, lo dejamos como está
+    dplyr::mutate(presidentae= ifelse(stringr::str_count(gobierno, " ")>0,
+                                      stringr::str_sub(gobierno,end= -3),
+                                      gobierno)) %>% 
+    #caracteres como la { no son recomendables en R, se recomienda convertir. 
+    #En este caso, los reemplazamos por una ni por similitud fonética
+    dplyr::mutate(presidentae= gsub("ñ","ni",presidentae)) %>%  
+    #Aqueños presidentaes que no coincidan con la palabra Piniera, serán denominados "izq", al resto, "der"
+    dplyr::mutate(der_izq= ifelse(!grepl("Piniera",presidentae),"izq","der")) %>% 
+    #
+    dplyr::mutate(mujer= factor(dplyr::case_when(grepl("Bachele", presidentae)~"1",T~"2"))) %>% 
+    dplyr::mutate(mujer_corr= fct_relevel(mujer, "1", after = 2)) %>%
+  #con estas llaves curvas, podemos ejecutar múltiples salidas de una base de datos luego de un
+  #pipe. Incluso exportarlas. Sólo basta con agregar el punto, que dice que todo lo anterior es el origen
+  # dimos espacios para que se vean mejor con salto de línea \n
+    {
+    cat("Mirada a la base\n");cat("\n");glimpse(.); cat("\n"); cat("\n"); cat("mujer no recod:\n"); print(pull(.,mujer) %>% janitor::tabyl()); cat("\n"); cat("\n"); cat("mujer recod:\n");print(pull(.,mujer_corr) %>% janitor::tabyl())
+    }
+```
+]
+]
+
+.pull-right[
+.details-code[
+```{r string2, echo=T, error=T, warning=F, message=F, results="hold"}
+#restringir espacios afuera, poner en minúsculas, seleccionar de ahí los 33 primeros caracteres
+stringr::str_sub(tolower(stringr::str_trim("   mushas graSias por sU comPrension zii ")), 1, 33) %>% 
+    stringr::str_replace("sh","ch") %>% #SH no aplica
+    stringr::str_replace("sias","cias") %>%  #corregir
+    stringr::str_replace("^m","M") %>% #cambiamos la m minúscula inicial por mayúscula
+    stringr::str_replace("$","!!!!")  #añadimos al final unos signos de exclamación
+```
+]
+
+[**Torpedo sobre manipulación de texto**](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/spanish/strings_es.pdf)
+
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+- estamos usando un operador: !!!
+- siempre fijarse mucho en los filtros, acentos, y en las mayúsculas o minúsculas
+
 ---
 ## Introducción
 
@@ -779,8 +1018,9 @@ class: animated, fadeIn
   - Permite seguir los pasos y los distintos componentes del gráfico
   - Permite una fácil forma de iteración para distintos gráficos
 
-[**Torpedo sobre ggplot*](https://res.cloudinary.com/dyd911kmh/image/upload/v1666806657/Marketing/Blog/ggplot2_cheat_sheet.pdf)
+[**Torpedo sobre ggplot**](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/spanish/data-visualization_es.pdf)
 
+[**Torpedo sobre dplyr**](https://raw.githubusercontent.com/rstudio/cheatsheets/main/translations/spanish/data-transformation_es.pdf)
 
 ---
 ## Elementos
@@ -1237,366 +1477,6 @@ labs(x="N total beneficiados", y="Frecuencia", title="Histograma de número tota
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
----
-# Introducción a Rmarkdown y Quarto
-
-.right[$$Fuente: Prof.\,Matias\,Placencio-Castro\,(placenci@bc.edu)$$]
-
-- **Markdown**: Lenguaje de marcado ligero para formatear texto.
-
-- Creador: John Gruber, 2004
-
-- Uno de los lenguajes de formateo más populares.
-
-- **Rmarkdown**: Extensión de Markdown para integrar código R y otros lenguajes.
-
-- Usos: 
-  - Comunicar resultados para toma de decisiones.
-  - Colaboración en investigaciones, incluyendo pasos seguidos.
-  - Ambiente de trabajo moderno que captura procesos y flujo de trabajo
-
-- **Quarto**: Extensión avanzada de Markdown.
-
-- Integración fácil con Python y otros lenguajes.
-
-- Mejora en el procesamiento de Markdown en "trabajos".
-
-.center_down_image[
-```{r, "md", echo=F, warning=F, message=F}
-image_colorize(image_read(path = "./_figs/md.png"),35,"red")
-```
-]
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
-- **Qué es markdown**: Lenguaje de marcado/formateo ligero que se puede usar para agregar elementos de formato a documentos de texto plano. Creado por John Gruber en 2004, es ahora uno de los lenguajes de formateo mas populares del mundo (https://www.markdownguide.org)
-
-- **Qué es Rmarkdown**: R Markdown es un formato de archivo para crear documentos dinamicos con R ´ . Un documento R Markdown esta escrito en markdown y puede contener fragmentos de coodigo R (o algun otro lenguaje), resultados, y prosa/comentarios. Estos documentos se utilizan generalmente de tres formas:
-1. Para comunicar resultados orientados a la toma de decisiones (individuos que no necesariamente estan interesados en el codigo)
-2. Para colaborar con otros investigadores interesados no solo en los resultados y conclusiones, sino tambien en los pasos seguidos.
-3. Como un ambiente de trabajo moderno, que captura no solo lo que uno hizo sino tambien lo que pudo haber pensado y anotado.
-
-- **Qué es quarto**: Es markdown en esteroides. Permite integrar otros lenguajes de programación como python de manera más fácil y fluida. También mejora la forma de procesar el markdown en "trabajos" (por lo que puedo renderizar/producir múltiples)
-
-- decir algo de xaringan, presentaciones, etc
-
-- de ahi shiny
-  
----
-## Ventajas y desventajas
-
-.pull-left[
-
-- Todo en un mismo lugar
-
-- Automatiza
-
-- Facilita colaboración (claridad en pasos, rastreables, etc.)
-
-]
-
-.pull-right[
-
-- Difícil lectura (mucho código)
-
-- No es tan rapido manejarlo
-
-- Difícil aprender al principio
-
-]
-
-**Apuntes**
-
-- [Apuntes Quarto](https://campusesp.uchile.cl/plataformas/2023/postgrado/pluginfile.php/2198/mod_resource/content/0/Quarto%20Cheat%20Sheet.pdf)
-
-- [Apuntes Rmarkdown](https://campusesp.uchile.cl/plataformas/2023/postgrado/pluginfile.php/2197/mod_resource/content/0/Rmarkdown%20Cheat%20Sheet.pdf)
-
-
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
-
-- A diferencia the aplicaciones WYSIWYG (Microsoft Word y NotePad, Apple Pages, etc.) los cambios de formato y organizacion del documento no se realizan clickeando botones. Cuando crea un archivo con formato de Markdown, agrega la sintaxis de Markdown al texto para indicar que palabras y frases deben verse diferentes. 
-
----
-## Estructura (1): YAML
-
-- Debe ir al principio de cada documento y entre "---" tanto al principio como al final de esta sección
-
-- Respete la indentación (ej., espacios como "   " para definir jerarquías de los argumentos del YAML)
-
-- **Metadatos**: Hablan de la estructura del documento (ej., nombre, título). Cuando usted saca una foto, ésta tiene una fecha, el nombre de la cámara, información sobre la profundidad de la imagen, la resolución etc. Esta es similar.
-
-.pull-left[
-````markdown
----
-title: "Untitled" # sección de título
-author: "ags" # autor
-date: '2023-08-15' # fecha
-output: html_document # formato de salida del documento
----
-
-````
-
-- Quarto
-
-````markdown
----
-title: "Untitled" # sección de título
-format: html # formato de salida del documento
-editor: visual # interfaz gráfica que permite editar documentos sin tener que saber markdown
----
-
-````
-
-]
-
-.pull-right[
-
-- PDF
-
-````markdown
----
-title: "Untitled"
-author: "ags"
-date: '2023-08-15'
-output: pdf_document # para exportar a pdf
----
-````
-
-- PDF (xelatex)
-
-- Si el anterior metadato para exportar a PDF no le funciona, puede instalar 'tinytex'
-
-````markdown
----
-title: "Untitled"
-author: "ags"
-date: '2023-08-15'
-output: # tenga en cuenta el indentado, la separación jerárquica de cada línea
-   pdf_document:
-     latex_engine: xelatex
----
-````
-]
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-    
-- YAML: Es la metadata. En pdf es especialmente difíci, ya que se requiere instalar otros paquetes para hacer compatibles como install.packages('tinytex'); tinytex::install_tinytex(); xelatex
-
-- Cada paquete de compilación tiene sus propios argumentos: bookdown, beamer, xaringan, posterdown, etc.
-
-- TIPS: Usar `rm(list=ls());gc()` al principio y luego cargar todos los paquetes en cada documento
-
----
-## Estructura (2): Chunks
-
-.pull_r_30[
-```{r, "pandoc", echo=F, warning=F, message=F, out.width=500}
-image_colorize(image_read(path = "./_figs/pandoc.png"),35,"red")
-```
-]
-
-.text_70[
-.line_space_09[
-| Argumento         | Ejemplo (por defecto)   | Función                                                                                                                                                                  |
-|-------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `eval`            | `eval=TRUE`            | El código corre y los resultados se incluyen en la salida.                                                                                                               |
-| `include`         | `include=TRUE`         | ¿Se incluye el código y el resultado en la salida?                                                                                                                        |
-| `echo`            | `echo=TRUE`            | ¿Se despliega el código junto con los resultados?                                                                                                                         |
-| `warning`         | `warning=TRUE`         | ¿Se despliegan los mensajes de advertencia?                                                                                                                               |
-| `error`           | `error=FALSE`          | ¿Se despliegan los errores?, ¿sigue la compilación si hay errores?                                                                                                       |
-| `message`         | `message=TRUE`         | ¿Se despliegan los mensajes?                                                                                                                                              |
-| `tidy`            | `tidy=FALSE`           | ¿Se formatea el código para que parezca “limpio”?                                                                                                                         |
-| `results`         | `results="markup"`     | "Cómo se ven los resultados? ""hide"" = sin resultados ""asis"" = resultados sin formato ""hold"" = se compilan los resultados al final del chunk (usar si hay muchos comandos)" |
-| `cache`           | `cache=FALSE`          | ¿Se guarda en el cache para compilaciones futuras?                                                                                                                        |
-| `comment`         | `comment="##"`         | ¿Cuál es el signo en que los caracteres no se evalúan?                                                                                                                    |
-| `fig.width, fig.height` | `fig.width=7`  | ¿Cuál es el ancho y largo (en pies) de la figura?                                                                                                                         |
-| `fig.cap`         | `fig.cap=""`           | Título de la figura                                                                                                                                                       |
-| `fig.align`       | `fig.align="left"`     | Ubicación de la imagen: (izquierda) "left" (derecha) "right" (centro) "center"                                                                                                                                                   |
-]
-]
-
-.text_70[
-*Fuente: https://ourcodingclub.github.io/tutorials/rmarkdown/*
-]
-
-Nota: En quarto, los argumentos de cada chunk se presentan en formato `#|` debajo de cada chunk
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
-- dpi o fig.retina también se recomiendan para imágenes
-- Se recomienda al final de un markdown dejar lo siguiente: Sys.getenv("R_LIBS_USER") ; rstudioapi::getSourceEditorContext() ; sessionInfo()
-- unlink("*_cache", recursive = TRUE)
-
----
-## Ejemplos
-
-
-````markdown
-`r ''````{r, "rmarkdown-output", echo = F, eval=TRUE, out.width = '50%', fig.align = 'center', fig.cap="Ejemplo markdown"}
-
-url <- './_figs/rmarkdown.PNG'
-
-knitr::include_graphics(url)
-```
-````
-
-Salida:
-```{r, "rmarkdown-output", echo = F, eval=TRUE, out.width = '50%', fig.align = 'center', fig.cap="Ejemplo markdown"}
-url <- './_figs/rmarkdown.PNG'
-
-knitr::include_graphics(url)
-```
-
-
-- La media de 5 números es 18. Si uno es excluido, la media es 16. ¿Cuál es el número excluido?
-
-````markdown
-$$
-\frac{(a + b+ c+ d+ x)}5=18
-$$
-
-$$
-\frac{(a + b+ c+ d)}4=16
-$$
-
-$$
-64+x=90
-$$
-
-````
-
-$$
-\frac{(a + b+ c+ d+ x)}5=18
-$$
-
-$$
-\frac{(a + b+ c+ d)}4=16
-$$
-
-$$
-64+x=90
-$$
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
-
----
-## Ejemplos (2)
-
-
-Necesario para hacer la interfaz con Python:
-
-`if(!require(reticulate)){install.packages("reticulate")}`
-
-````markdown
-`r ''````{python, "ejercicio-python", echo = F}
-import numpy as np
-np.random.seed(42) 
-data = np.random.randn(100)
-mean_data = np.mean(data)
-mean_data
-```
-`r ''````{r,"ejercicio-r", echo = F}
-set.seed(42) 
-r_data <- rnorm(100)
-mean_r_data <- mean(r_data)
-mean_r_data
-```
-````
-
-Salida:
-```{python, "ejercicio-python", echo = F, eval=TRUE, out.width = '50%', fig.align = 'center', fig.cap="Ejemplo markdown"}
-import os
-os.system("pip install numpy")
-import numpy as np
-np.random.seed(42) 
-data = np.random.randn(100)
-mean_data = np.mean(data)
-mean_data
-```
-```{r, "ejercicio-r", echo = F}
-set.seed(42) 
-r_data <- rnorm(100)
-mean_r_data <- mean(r_data)
-mean_r_data
-```
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
----
-## Ejercicio 5
-
-Despliegue el siguiente ejercicio en un markdown en formato .html
-
-- De algunas de las base de datos de permisos de circulación pagados y tramitados en la Municipalidad de Cochamó el 2016 (https://datos.gob.cl/dataset/permisoscirculacion2016cochamo), 
-  
-  - Obtenga el porcentaje por columna, según corresponda al tipo de variable y nivel de medición.
-  
-  - Obtenga la media y la mediana, según corresponda al tipo de variable y nivel de medición.
-  
-  - **EXTRA**: Obtenga una tabla de 2 vías, según corresponda al tipo de variable y nivel de medición.
-
----
-## Ejercicio 6
-
-De los datos sobre interrupción voluntaria del embarazo, genere un gráfico de lineas en que el eje x sea el AÑO y las líneas sean la frecuencia. Cada línea debe representar cada causal (rojo= Causal 1: Peligro para la vida de la mujer; azul=Causal 2: Inviabilidad fetal de carácter letal; morado= Causal 3: Embarazo por violación), **utilizando tidyverse**
-
-```{r,"ej 6", out.width = '50%', fig.align = 'center'}
-#https://deis.minsal.cl/#tableros
-#notese, que no escribimos con ñ por notación
-data_df <- data.frame(
-  ANIO = c(2018, 2018, 2018, 2019, 2019, 2019, 2020, 2020, 2020, 2021, 2021, 2021, 2022, 2022, 2022, 2023, 2023, 2023),
-  Frecuencia = c(262, 346, 124, 267, 414, 137, 160, 348, 154, 250, 442, 130, 254, 368, 209, 103, 162, 142),
-  CAUSAL = c("Causal 1", "Causal 2", "Causal 3", "Causal 1", "Causal 2", "Causal 3", "Causal 1", "Causal 2", "Causal 3",
-             "Causal 1", "Causal 2", "Causal 3", "Causal 1", "Causal 2", "Causal 3", "Causal 1", "Causal 2", "Causal 3")
-
-)
-
-#Ejemplo de un gráfico con el total, sin división en causales
-data_df %>% 
-    group_by(ANIO) %>% 
-    summarise(total=sum(Frecuencia, na.rm=T)) %>% 
-    ggplot(aes(ANIO, total, group=1))+ #en algunos casos podría solicitarle el último argumento
-    geom_point()+ #líneas
-  theme_minimal() #temática
-```
-
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
-ggplot(data = data_df, aes(x = ANIO, y = Frecuencia, color = CAUSAL)) +
-  geom_line() +
-  scale_color_manual(values = c("red", "blue", "purple"), 
-                     breaks = c("Causal 1", "Causal 2", "Causal 3"),
-                     labels = c("Causal 1: Peligro para\nla vida de la mujer",
-                                "Causal 2: Inviabilidad\nfetal de carácter letal",
-                                "Causal 3: Embarazo\npor violación")) +
-  labs(x = "Año", y = "Frecuencia", color = "Causal") +
-  theme_minimal()
 
 ---
 class: center, middle

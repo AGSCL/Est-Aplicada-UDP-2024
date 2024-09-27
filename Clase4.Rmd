@@ -1774,6 +1774,166 @@ dir_afp <- rio::import("https://github.com/AGSCL/Est-Aplicada-UDP-2024/raw/main/
 
 .pull-left[
 .details-code[
+```{r pre-string1, include=F}
+ministros_aylwin <- data.frame(
+  nombre = c(
+    "Enrique Silva Cimma", "Francisco Cumplido", "Alejandro Foxley", "Carlos Ominami", "Ricardo Lagos",
+    "Sergio Molina Silva", "Marcelo Schilling", "René Cortázar", "Luis Alvarado Constenla", "Máximo Pacheco",
+    "Edgardo Boeninger", "Enrique Correa", "Patricio Rojas", "Germán Molina Valdivieso", 
+    "Juan Agustín Figueroa", "Soledad Alvear", "Alejandro Hales", "Jorge Marshall Rivera"
+  ),
+  
+  cartera = c(
+    "Relaciones Exteriores", "Justicia", "Hacienda", "Economía", "Obras Públicas", 
+    "Educación", "Seguridad Pública", "Trabajo y Previsión Social", "Bienes Nacionales", "Minas",
+    "Secretaría General de la Presidencia", "Secretaría General de Gobierno", "Defensa", 
+    "Transportes y Telecomunicaciones", "Agricultura", "Mujer (SERNAM)", "Minería", "Economía"
+  ),
+  
+  gobierno = rep("Aylwin", 18)
+)
+ministros_frei_1994_2000 <- data.frame(
+  nombre = c(
+    "Soledad Alvear", "Eduardo Aninat", "José Pablo Arellano", "Jorge Arrate", "Genaro Arriagada",
+    "John Biehl", "Josefina Bilbao", "José Joaquín Brunner", "Germán Correa", "Adriana Delpiano",
+    "Carlos Figueroa", "Álex Figueroa", "Sergio Galilea", "Álvaro García Hurtado", "José Antonio Gómez",
+    "Jorge Heine", "Sergio Henríquez", "Edmundo Hermosilla", "Claudio Hohmann", "José Miguel Insulza",
+    "Narciso Irureta", "Alejandro Jadresic", "Sergio Jiménez Moraga", "Óscar Landerretche", "Jorge Leiva Lavalle",
+    "Luis Maira", "Manuel Marfán", "Carlos Massad", "Carlos Mladinic", "Sergio Molina", "Germán Molina Valdivieso",
+    "Emiliano Ortega", "Edmundo Pérez Yoma", "Roberto Pizarro Hofer", "Germán Quintana", "Víctor Manuel Rebolledo",
+    "Felipe Sandoval Precht", "Ángel Sartori", "Ernesto Schiefelbein", "Benjamín Teplizky", "Jaime Tohá",
+    "Raúl Troncoso", "Juan Gabriel Valdés", "Juan Villarzú"
+  ),
+  
+  cartera = c(
+    "Justicia", "Hacienda", "Presupuesto", "Trabajo y Previsión Social", "Secretaría General de la Presidencia",
+    "Relaciones Exteriores", "Mujer", "Educación", "Interior", "Vivienda y Urbanismo",
+    "Salud", "Salud", "Obras Públicas", "Economía", "Defensa",
+    "Relaciones Exteriores", "Transportes y Telecomunicaciones", "Vivienda y Urbanismo", "Obras Públicas", "Interior",
+    "Mujer", "Energía", "Minería", "Presupuesto", "Transporte y Telecomunicaciones",
+    "Vivienda y Urbanismo", "Hacienda", "Banco Central", "Economía", "Educación", "Transportes y Telecomunicaciones",
+    "Interior", "Defensa", "Relaciones Exteriores", "Obras Públicas", "Relaciones Exteriores",
+    "Desarrollo Social", "Medio Ambiente", "Educación", "Energía", "Interior",
+    "Relaciones Exteriores", "Relaciones Exteriores", "Energía"
+  ),
+  
+  gobierno = rep("Frei", 44)
+)
+ministros_lagos_2000_2006 <- data.frame(
+  nombre = c(
+    "Soledad Alvear", "Ignacio Walker", "Ricardo Lagos Weber", "Sergio Bitar", "Mariana Aylwin", 
+    "Francisco Vidal", "Nicolás Eyzaguirre", "Osvaldo Puccio", "Jaime Estévez", "Jaime Estévez", "José Miguel Insulza", 
+    "Pedro García Aspillaga", "Jorge Rodríguez Grossi", "Javier Etcheberry", "Adriana Delpiano", 
+    "Alvaro García", "Claudio Huepe", "Luis Bates", "Alejandro Ferreiro", "Francisco Huenchumilla", 
+    "Carlos Cruz", "Vivianne Blanlot", "José Weinstein", "Heraldo Muñoz", "Alejandra Krauss", "José Antonio Viera-Gallo"
+  ),
+  
+  cartera = c(
+    "Relaciones Exteriores", "Relaciones Exteriores", "Secretaría General de Gobierno", "Obras Públicas", "Educación", 
+    "Interior", "Hacienda", "Secretaría General de Gobierno", "Obras Públicas", "Transportes y Telecomunicaciones", "Defensa", 
+    "Salud", "Economía", "Obras Públicas", "Desarrollo Social", 
+    "Economía", "Energía", "Justicia", "Energía", "Seguridad Pública", 
+    "Defensa", "Cultura", "Relaciones Exteriores", "Mujer", "Trabajo y Previsión Social", "Secretaría General de la Presidencia"
+  ),
+  
+  gobierno = rep("Lagos", 26)
+)
+ministros_bachelet_2006_2010 <- data.frame(
+  nombre = c(
+    "Andrés Velasco", "José Goñi", "Edmundo Pérez Yoma", "Sergio Bitar", "Francisco Vidal", 
+    "Patricio Rosende", "Carolina Tohá", "Felipe Harboe", "Ricardo Lagos Weber", 
+    "Jaime Mañalich", "Patricia Poblete", "Paulina Veloso", "Osvaldo Andrade", "Paula Quintana", 
+    "Ernesto Ottone", "María Ignacia Benítez", "Alejandro Foxley", "Ingrid Antonijevic", "Clarisa Hardy",
+    "Martín Zilic", "Yasna Provoste", "Eduardo Bitrán", "Rommy Schmidt", "Sergio Espejo", "Karen Poniachik", "Hugo Lavados"
+  ),
+  
+  cartera = c(
+    "Hacienda", "Defensa", "Interior", "Transporte y Telecomunicaciones", "Secretaría General de Gobierno", 
+    "Subsecretaría del Interior", "Secretaría General de Gobierno", "Subsecretaría de Prevención del Delito", "Relaciones Exteriores", 
+    "Salud", "Vivienda y Urbanismo", "Ministerio de la Mujer", "Trabajo y Previsión Social", "Desarrollo Social", 
+    "Cultura", "Medio Ambiente", "Relaciones Exteriores", "Economía", "Planificación y Cooperación",
+    "Educación", "Educación", "Obras Públicas", "Bienes Nacionales", "Transportes y Telecomunicaciones", "Minería", "Economía"
+  ),
+  
+  gobierno = rep("Bachelet I", 26)
+)
+ministros_pinera_2010_2014 <- data.frame(
+  nombre = c(
+    "Rodrigo Hinzpeter", "Alfredo Moreno", "Jaime Ravinet", "Andrés Allamand", "Felipe Larraín", 
+    "Cristián Larroulet", "Ena von Baer", "Andrés Chadwick", "Cecilia Pérez", 
+    "Juan Andrés Fontaine", "Pablo Longueira", "Félix de Vicente", 
+    "Felipe Kast", "Joaquín Lavín", "Joaquín Lavín", "Bruno Baranda", 
+    "Felipe Bulnes", "Harald Beyer", "Carolina Schmidt", "Loreto Silva", 
+    "Magdalena Matte", "Catalina Parot", "María Ignacia Benítez", "Jaime Mañalich", 
+    "Pedro Pablo Errázuriz", "Rodrigo Pérez Mackenna", "Rodrigo Pérez Mackenna"
+  ),
+  
+  cartera = c(
+    "Interior y Seguridad Pública", "Relaciones Exteriores", "Defensa", "Defensa", "Hacienda", 
+    "Secretaría General de la Presidencia", "Secretaría General de Gobierno", "Interior y Seguridad Pública", "Secretaría General de Gobierno", 
+    "Economía", "Economía", "Economía", 
+    "Desarrollo Social", "Educación", "Desarrollo Social", "Desarrollo Social", 
+    "Educación", "Educación", "SERNAM", "Obras Públicas", 
+    "Vivienda y Urbanismo", "Bienes Nacionales", "Medio Ambiente", "Salud", 
+    "Transportes y Telecomunicaciones", "Vivienda y Urbanismo", "Bienes Nacionales"
+  ),
+  
+  gobierno = rep("Piñera I", 27)
+)
+ministros_bachelet_2014_2018 <- data.frame(
+  nombre = c(
+    "Rodrigo Peñailillo", "Jorge Burgos", "Mario Fernández", "Heraldo Muñoz", 
+    "José Antonio Gómez", "Alberto Arenas", "Rodrigo Valdés", "Nicolás Eyzaguirre", "Nicolás Eyzaguirre", 
+    "Ximena Rincón", "Gabriel de la Fuente", "Álvaro Elizalde", "Paula Narváez", 
+    "Luis Felipe Céspedes", "Jorge Rodríguez Grossi", "Fernanda Villegas", 
+    "Marcos Barraza", "Adriana Delpiano", "Javiera Blanco", "Alejandra Krauss", 
+    "Alberto Undurraga", "Helia Molina", "Carmen Castillo", "Paulina Saball", 
+    "Carlos Furche", "Aurora Williams", "Andrés Gómez-Lobo", "Paola Tapia", 
+    "Víctor Osorio", "Nivia Palma", "Máximo Pacheco", "Andrés Rebolledo", 
+    "Pablo Badenier", "Marcelo Mena", "Natalia Riffo", "Pablo Squella", 
+    "Claudia Pascual", "Claudia Barattini", "Ernesto Ottone"
+  ),
+  
+  cartera = c(
+    "Interior", "Interior", "Interior", "Relaciones Exteriores", 
+    "Defensa", "Hacienda", "Hacienda", "Educación", "Secretaría General de la Presidencia", 
+    "Trabajo y Previsión Social", "Secretaría General de la Presidencia", 
+    "Secretaría General de Gobierno", "Secretaría General de Gobierno", 
+    "Economía", "Economía", "Desarrollo Social", 
+    "Desarrollo Social", "Educación", "Justicia y Derechos Humanos", 
+    "Trabajo y Previsión Social", "Obras Públicas", "Salud", "Salud", 
+    "Vivienda y Urbanismo", "Agricultura", "Minería", "Transportes y Telecomunicaciones", 
+    "Transportes y Telecomunicaciones", "Bienes Nacionales", "Bienes Nacionales", 
+    "Energía", "Energía", "Medio Ambiente", "Medio Ambiente", 
+    "Deporte", "Deporte", "Mujer y la Equidad de Género", 
+    "Culturas, las Artes y el Patrimonio", "Culturas, las Artes y el Patrimonio"
+  ),
+  
+  gobierno = rep("Bachelet II", 39)
+)
+ministros_pinera_2018_2022 <- data.frame(
+  nombre = c(
+    "Andrés Chadwick", "Gonzalo Blumel", "Rodrigo Delgado", "Teodoro Ribera", "Andrés Allamand", 
+    "Alfredo Moreno", "Felipe Larraín", "Ignacio Briones", "Rodrigo Cerda", 
+    "Emilio Santelices", "Jaime Mañalich", "Enrique Paris", "Marcela Cubillos", "Raúl Figueroa", 
+    "Hernán Larraín", "Lucas Palacios", "Juan Carlos Jobet", "Baldo Prokurica", 
+    "Carolina Schmidt", "Gloria Hutt", "María José Zaldívar", "Sebastián Sichel", "Karla Rubilar"
+  ),
+  
+  cartera = c(
+    "Interior", "Interior", "Interior", "Relaciones Exteriores", "Relaciones Exteriores", 
+    "Desarrollo Social", "Hacienda", "Hacienda", "Hacienda", 
+    "Salud", "Salud", "Salud", "Educación", "Educación", 
+    "Justicia", "Economía", "Energía", "Defensa", 
+    "Medio Ambiente", "Transportes", "Trabajo", "Desarrollo Social", "Desarrollo Social"
+  ),
+  
+  gobierno = rep("Piñera II", 23)
+)
+ministros<-
+rbind.data.frame(ministros_aylwin,ministros_frei_1994_2000,ministros_lagos_2000_2006,ministros_bachelet_2006_2010,ministros_pinera_2010_2014,ministros_bachelet_2014_2018,ministros_pinera_2018_2022)
+```
+
 ```{r string1, echo=T, error=T, warning=F, message=F, results="hold"}
 ministros %>% 
     #que no nos importe el periodo, sino sólo el presidente
