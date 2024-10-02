@@ -1414,6 +1414,31 @@ ggplot(data = data_df, aes(x = ANIO, y = Frecuencia, color = CAUSAL)) +
   theme_minimal()
 
 
+
+---
+## Tarea sumativa
+
+- En grupos de a dos personas, 
+
+- Utilice la base de datos del repositorio GitHub llamado "Replicated_Chilean_Presidents_Ratings_with_Jorge_Alessandri.csv", alojado en la carpeta _data
+
+- Llame a la base de datos "dflacosanostra" (son datos simulados para asemejarnos a la siguiente [imagen](_figs/lacosanostraagosto2024.jpg))
+
+- Replique el gráfico de barras apilado verticalmente presentado en el enlace
+
+- Hágalo en Rmarkdown, con chunks visibles tanto el código como el resultado
+
+- Punto para la prueba: Recodifique la nota de Boric en 0, para puntajes mayores a 1, y 1, para puntajes iguales a uno, haga lo mismo para Salvador Allende, e indique las chances de indicar nota 1 en quienes evaluaron a Salvador Allende con nota 1, vs. quienes evaluaron con nota 0 a Salvador Allende; ¿y la razón de prevalencia?
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+
+dflacosanostra %>% 
+    dplyr::filter(allende_1==0&boric_1==1) #0
+
 ---
 ## Fuentes
 
