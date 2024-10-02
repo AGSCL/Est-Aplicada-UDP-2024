@@ -1422,7 +1422,7 @@ ggplot(data = data_df, aes(x = ANIO, y = Frecuencia, color = CAUSAL)) +
 
 - Utilice la base de datos del repositorio GitHub llamado "Replicated_Chilean_Presidents_Ratings_with_Jorge_Alessandri.csv", alojado en la carpeta _data
 
-- Llame a la base de datos "dflacosanostra" (son datos simulados para asemejarnos a la siguiente [imagen](_figs/lacosanostraagosto2024.jpg))
+- Llame a la base de datos "dflacosanostra" (son datos simulados para asemejarnos a la siguiente [imagen](https://raw.githubusercontent.com/AGSCL/Est-Aplicada-UDP-2024/refs/heads/main/_figs/lacosanostraagosto2024.jpg)), que corresponde a una pregunta de la Encuesta de La Cosa Nostra, para Agosto de 2024.
 
 - Replique el gráfico de barras apilado verticalmente presentado en el enlace
 
