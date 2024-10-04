@@ -963,6 +963,22 @@ Sea $P_A(E)$ la probabilidad de que se constate/presente la enfermedad en la con
 - **Razón de prevalencia**: similar a la "razón de riesgos" pero aplicado a estudios transversales
 - A medida que las probabilidades aumentan, los odds tienden al infinito
 
+table(ifelse(data_df$ANIO=="2018",1,0), 
+      ifelse(data_df$CAUSAL=="Causal 1",1,0)) %>% 
+    fisher.test() %>% 
+    broom::tidy()
+    #no sale bien con este!
+    
+tabla <- matrix(c(22, 3, 7, 18), nrow = 2, byrow = TRUE,
+                dimnames = list("Exposición" = c("Sí", "No"),
+                                "Resultado" = c("Evento", "No Evento")))
+
+mosaic::oddsRatio(tabla)
+#[1] 18.85714
+tabla %>% 
+fisher.test() %>% 
+    broom::tidy()
+#17.4 
 ---
 ## Correlación
 
